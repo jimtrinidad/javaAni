@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaani.FXMLDocumentController">
+   <children>
+      <AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #1fb5ad;" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="184.0" text="Anime Directory" textAlignment="CENTER" textFill="#eaeaea">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Separator layoutX="8.0" layoutY="49.0" prefHeight="3.0" prefWidth="600.0" valignment="TOP" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+      <AnchorPane layoutX="136.0" layoutY="50.0" prefHeight="351.0" prefWidth="600.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+         <children>
+            <Separator orientation="VERTICAL" prefHeight="351.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane id="mainMenuContainer" fx:id="mainMenuContainer" prefHeight="350.0" prefWidth="200.0" style="-fx-background-color: #32323a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Hyperlink fx:id="menuPopular" layoutX="64.0" layoutY="95.0" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="200.0" styleClass="menulink" stylesheets="@../menulink.css" text="Popular" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Hyperlink>
+                  <Hyperlink fx:id="menuOnGoing" layoutY="78.0" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="On Going" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="78.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Hyperlink>
+                  <Hyperlink fx:id="menuAll" layoutY="39.0" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="All Anime" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="39.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Hyperlink>
+                  <Hyperlink fx:id="menuBookmarks" layoutY="117.0" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="Bookmarks" textFill="#aeb2b7" visited="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>

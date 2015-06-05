@@ -1,0 +1,17 @@
+.menulink{
+    -fx-border-color: rgb(49, 89, 23);
+	-fx-text-decoration: none;
+	-fx-underline: false;
+	-fx-text-fill: #aeb2b7;
+}
+
+.menulink:visited{
+    -fx-border-color: rgb(49, 89, 23);
+	-fx-text-fill: #aeb2b7;
+	-fx-underline: false;
+}
+
+.menulink:hover, .menulink.active{
+	-fx-text-fill: #1FB5AD;
+	-fx-background-color: #28282e;
+}
