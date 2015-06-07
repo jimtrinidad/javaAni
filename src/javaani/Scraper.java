@@ -36,7 +36,7 @@ public class Scraper {
     
     public static Map animeData(String animeUrl) {
         
-        Map<String, String> anime = new HashMap<String, String>();
+        Map<String, String> anime = new HashMap<>();
         Document doc;
         
         try {
@@ -62,11 +62,35 @@ public class Scraper {
         
     }
     
-    public static Elements openEpisode(String episodeUrl) {
+    public static List openEpisode(String episodeUrl) {
         
-        Elements episodeElement = new Elements();
+        Elements episodeElement;
+        List<Map<String, String>> mirrors = new ArrayList<>();
+        Document doc;
         
-        return episodeElement;
+        try {
+            
+            doc     = Jsoup.connect(episodeUrl).get();
+            episodeElement = doc.select("div#mirror_container div.mirror");
+            System.out.println(episodeElement.toString());
+            for (Element elem:episodeElement) {
+                
+                Map<String, String> mirror = new HashMap<>();
+                Element b = elem.select("b").first();
+                
+                mirror.put("rnID", elem.attr("rn"));
+                mirror.put("thumb", elem.select("img").first().absUrl("src"));
+                mirror.put("provider", b.nextSibling().toString().trim());
+                mirror.put("quality", elem.select("div.mirror_traits div").last().attr("class"));
+                mirror.put("auth_key", doc.select("input[name=auth_key]").first().val());
+                mirrors.add(mirror);
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Scraper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return mirrors;
         
     }
     
@@ -76,7 +100,7 @@ public class Scraper {
         Elements animeListElements = new Elements();
         //String[][] animeList = new String[animeListElements.size()][2];
         
-        List<Map<String, String>> animeList = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> animeList = new ArrayList<>();
         
         try {
             doc = Jsoup.connect("http://rawranime.tv/list/popularongoing/").get();
@@ -90,7 +114,7 @@ public class Scraper {
             String link     = row.select("td.animetitle a").first().attr("href");
             String imageUrl = row.select("td.image noscript img").first().absUrl("src");
             
-            Map<String, String> anime = new HashMap<String, String>();
+            Map<String, String> anime = new HashMap<>();
             anime.put("title", title);
             anime.put("link", link);
             anime.put("imageUrl", imageUrl);
@@ -99,6 +123,20 @@ public class Scraper {
         }
         
         return animeList;
+        
+    }
+    
+    public static String getArkvidUrl(String rnID) {
+        
+        String url = new String();
+        return url;
+        
+    }
+    
+    public static String getMp4UploadUrl(String rnID) {
+        
+        String url = new String();
+        return url;
         
     }
     

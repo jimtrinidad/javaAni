@@ -130,11 +130,10 @@ public class MainViewController implements Initializable {
                 @Override
                 public void handle(MouseEvent click) {
                     if (click.getClickCount() == 2) {
-                       //Use ListView's getSelected Item
+                        
                         int index = episodeList.getSelectionModel().getSelectedIndex();
-                        System.out.println(index);
-                        System.out.println(episodesLink.get(index));
-                       //use this to do whatever you want to. Open Link etc.
+                        openEpisode(episodesLink.get(index));
+                        
                     }
                 }
             });
@@ -154,6 +153,17 @@ public class MainViewController implements Initializable {
     }
     
     private void openEpisode(String url) {
+        
+        List<Map<String, String>> mirrorList = Scraper.openEpisode(url);
+        
+        for (Map<String, String> mirror:mirrorList) {
+            System.out.println(mirror.get("rnID"));
+            System.out.println(mirror.get("thumb"));
+            System.out.println(mirror.get("provider"));
+            System.out.println(mirror.get("quality"));
+            System.out.println(mirror.get("auth_key"));
+        }
+        
         
     }
     
