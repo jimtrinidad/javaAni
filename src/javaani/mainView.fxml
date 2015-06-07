@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
@@ -11,9 +12,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaani.FXMLDocumentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javaani.MainViewController">
    <children>
-      <AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #1fb5ad;" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #1fb5ad;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="184.0" text="Anime Directory" textAlignment="CENTER" textFill="#eaeaea">
          <font>
             <Font name="System Bold" size="22.0" />
@@ -25,7 +26,7 @@
             <Separator orientation="VERTICAL" prefHeight="351.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="0.0" />
             <AnchorPane id="mainMenuContainer" fx:id="mainMenuContainer" prefHeight="350.0" prefWidth="200.0" style="-fx-background-color: #32323a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Hyperlink fx:id="menuPopular" layoutX="64.0" layoutY="95.0" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="200.0" styleClass="menulink" stylesheets="@../menulink.css" text="Popular" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Hyperlink fx:id="menuPopular" layoutX="64.0" layoutY="95.0" onAction="#handlePopularAction" prefHeight="40.0" prefWidth="200.0" styleClass="menulink" stylesheets="@../menulink.css" text="Popular" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -45,6 +46,11 @@
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="233.0" prefHeight="350.0" prefWidth="367.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ScrollPane fx:id="contentContainer" prefHeight="350.0" prefWidth="370.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>

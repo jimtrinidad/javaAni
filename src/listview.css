@@ -1,0 +1,22 @@
+.list-view {
+	-fx-padding: 1px;
+	-fx-background-color: -fx-background;
+}
+
+.list-view:filled:selected {
+  -fx-background-color: -fx-background;
+  -fx-background-insets: 0 ;
+}
+
+.list-cell {
+	-fx-padding: 5px;
+}
+
+.list-cell:filled:selected {
+  -fx-background-color: -fx-background;
+  -fx-background-insets: 0 ;
+}
+
+.list-cell:empty {
+    -fx-background-color: -fx-background;
+}
