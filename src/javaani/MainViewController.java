@@ -156,13 +156,17 @@ public class MainViewController implements Initializable {
         
         List<Map<String, String>> mirrorList = Scraper.openEpisode(url);
         
-        for (Map<String, String> mirror:mirrorList) {
-            System.out.println(mirror.get("rnID"));
-            System.out.println(mirror.get("thumb"));
-            System.out.println(mirror.get("provider"));
-            System.out.println(mirror.get("quality"));
-            System.out.println(mirror.get("auth_key"));
-        }
+//        for (Map<String, String> mirror:mirrorList) {
+//            System.out.println(mirror.get("rnID"));
+//            System.out.println(mirror.get("thumb"));
+//            System.out.println(mirror.get("provider"));
+//            System.out.println(mirror.get("quality"));
+//            System.out.println(mirror.get("auth_key"));
+//        }
+        
+//        System.out.println(Scraper.getArkvidUrl(mirrorList.get(0).get("rnID"), mirrorList.get(0).get("auth_key")));
+//        System.out.println(mirrorList.get(3).get("rnID"));
+//        System.out.println(Scraper.getMp4UploadUrl(mirrorList.get(3).get("rnID"), mirrorList.get(3).get("auth_key")));
         
         
     }

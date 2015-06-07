@@ -72,7 +72,6 @@ public class Scraper {
             
             doc     = Jsoup.connect(episodeUrl).get();
             episodeElement = doc.select("div#mirror_container div.mirror");
-            System.out.println(episodeElement.toString());
             for (Element elem:episodeElement) {
                 
                 Map<String, String> mirror = new HashMap<>();
@@ -126,17 +125,50 @@ public class Scraper {
         
     }
     
-    public static String getArkvidUrl(String rnID) {
+    public static String getArkvidUrl(String rnID, String token) {
         
-        String url = new String();
-        return url;
+        String videoUrl = new String();
+        String mirrorUrl = "http://rawranime.tv/index.php?s=a8dd596a0e7afa519556a77d0933a8b5&app=anime&module=ajax&section=anime_watch_handler&do=getvid";
+
+        mirrorUrl = mirrorUrl.concat("&md5check=" + token);
+        mirrorUrl = mirrorUrl.concat("&id=" + rnID);
+        
+        Document doc;
+        try {
+            doc = Jsoup.connect(mirrorUrl).get();
+            videoUrl = doc.select("iframe").first().attr("src");
+            doc = Jsoup.connect(videoUrl).get();
+            videoUrl = doc.select("video source").first().absUrl("src");
+        } catch (IOException ex) {
+            Logger.getLogger(Scraper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return videoUrl;
         
     }
     
-    public static String getMp4UploadUrl(String rnID) {
+    public static String getMp4UploadUrl(String rnID, String  token) {
         
-        String url = new String();
-        return url;
+        String videoUrl = new String();
+        String mirrorUrl = "http://rawranime.tv/index.php?s=a8dd596a0e7afa519556a77d0933a8b5&app=anime&module=ajax&section=anime_watch_handler&do=getvid";
+
+        mirrorUrl = mirrorUrl.concat("&md5check=" + token);
+        mirrorUrl = mirrorUrl.concat("&id=" + rnID);
+        
+        Document doc;
+        try {
+            doc = Jsoup.connect(mirrorUrl).get();
+            videoUrl = doc.select("iframe").first().attr("src");
+            doc = Jsoup.connect(videoUrl).get();
+            videoUrl = doc.toString();
+            int start   = videoUrl.indexOf("mp4upload.com:182");
+            int end     = videoUrl.indexOf("video.mp4", start);
+            videoUrl = videoUrl.substring((start - 12), (end + 9));
+        } catch (IOException ex) {
+            Logger.getLogger(Scraper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return videoUrl;
         
     }
     
