@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +35,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -113,10 +118,10 @@ public class MainViewController implements Initializable {
             for (Element row:episodesRows) {
                 String episideNo    = row.select("div.list_header_epnumber").first().text();
                 String episideTitle = row.select("div.list_header_epname").first().text();
-                String episideLink  = row.select("div.list_header_eptype a").first().attr("href");
+                String episodeLink  = row.select("div.list_header_eptype a").first().attr("href");
                 
                 items.add(i, episideNo + "    " + episideTitle);
-                episodesLink.add(i, episideLink);
+                episodesLink.add(i, episodeLink);
                 
                 i++;
             }
@@ -155,19 +160,88 @@ public class MainViewController implements Initializable {
     private void openEpisode(String url) {
         
         List<Map<String, String>> mirrorList = Scraper.openEpisode(url);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(JavaAni.class.getResource("episodeView.fxml"));
         
-//        for (Map<String, String> mirror:mirrorList) {
-//            System.out.println(mirror.get("rnID"));
-//            System.out.println(mirror.get("thumb"));
-//            System.out.println(mirror.get("provider"));
-//            System.out.println(mirror.get("quality"));
-//            System.out.println(mirror.get("auth_key"));
-//        }
+        AnchorPane episodeView;
+        try {
+            
+            episodeView = (AnchorPane) loader.load();
+            ListView mirrorListView = new ListView();
+            ObservableList<String> items = FXCollections.observableArrayList();
+            ObservableList<String> mirrorLinks = FXCollections.observableArrayList();
+            
+            int i = 0;
+            for (Map<String, String> mirror:mirrorList) {
+                String rnID     = mirror.get("rnID");
+                String provider = mirror.get("provider");
+                String type     = new String();
+                String quality  = new String();
+                String videoUrl = new String();
+                switch (mirror.get("type")) {
+                    case "subbed_trait" : type = "SUB"; break;
+                    case "dubbed_trait" : type = "DUB"; break;
+                }
+                switch (mirror.get("quality")) {
+                    case "hd_720p_trait" : quality = "HD720"; break;
+                    case "sd_trait" : quality = "SD"; break;
+                }
+                switch (mirror.get("provider").toLowerCase()) {
+                    case "mp4upload" : videoUrl = Scraper.getMp4UploadUrl(rnID, mirror.get("auth_key")); break;
+                    case "arkvid" : videoUrl = Scraper.getArkvidUrl(rnID, mirror.get("auth_key")); break;
+                }
+                String itemlabel = type + " - " + provider + "\n" + quality;
+                items.add(i, itemlabel);
+                
+                mirrorLinks.add(i, videoUrl);
+            }
+
+            mirrorListView.setItems(items);
+            mirrorListView.setCursor(Cursor.HAND);
+            mirrorListView.getStylesheets().add(getClass().getResource("/listview.css").toExternalForm());
+
+            mirrorListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent click) {
+                    if (click.getClickCount() == 2) {
+
+                        int index = mirrorListView.getSelectionModel().getSelectedIndex();
+                        System.out.println(mirrorLinks.get(index));
+                        openVideo(mirrorLinks.get(index), episodeView);
+                        
+                    }
+                }
+            });
+
+            VBox mirrorsCont = (VBox) episodeView.lookup("#mirrorContainer");
+            mirrorsCont.getChildren().add(mirrorListView);
+
+            contentContainer.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Horizontal
+            contentContainer.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Vertical scroll bar
+            contentContainer.setFitToWidth(true);
+            contentContainer.setContent(episodeView);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MainViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }    
         
-//        System.out.println(Scraper.getArkvidUrl(mirrorList.get(0).get("rnID"), mirrorList.get(0).get("auth_key")));
-//        System.out.println(mirrorList.get(3).get("rnID"));
-//        System.out.println(Scraper.getMp4UploadUrl(mirrorList.get(3).get("rnID"), mirrorList.get(3).get("auth_key")));
+    }
+    
+    private void openVideo(String videoUrl, AnchorPane episodeView) {
         
+        MediaPlayer videoPlayer = new MediaPlayer(new Media(videoUrl));
+        videoPlayer.play();
+        MediaView videoCont = (MediaView) episodeView.lookup("#mediaView");
+        videoCont.setMediaPlayer(videoPlayer);
+        
+        VBox videoContainer = (VBox) episodeView.lookup("#videoContainer");
+        
+        videoContainer.setPadding(new Insets(5, 0, 5, 5));
+        videoCont.setFitWidth(videoContainer.getWidth());
+        videoCont.setFitHeight(videoContainer.getHeight());
+        
+        videoCont.setPreserveRatio(true);
         
     }
     

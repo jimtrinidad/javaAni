@@ -80,6 +80,7 @@ public class Scraper {
                 mirror.put("rnID", elem.attr("rn"));
                 mirror.put("thumb", elem.select("img").first().absUrl("src"));
                 mirror.put("provider", b.nextSibling().toString().trim());
+                mirror.put("type", elem.select("div.mirror_traits div").first().attr("class"));
                 mirror.put("quality", elem.select("div.mirror_traits div").last().attr("class"));
                 mirror.put("auth_key", doc.select("input[name=auth_key]").first().val());
                 mirrors.add(mirror);

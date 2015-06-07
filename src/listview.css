@@ -18,5 +18,5 @@
 }
 
 .list-cell:empty {
-    -fx-background-color: -fx-background;
+    -fx-background-color: transparent;
 }
