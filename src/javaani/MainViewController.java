@@ -39,6 +39,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -230,19 +232,26 @@ public class MainViewController implements Initializable {
     
     private void openVideo(String videoUrl, AnchorPane episodeView) {
         
-        MediaPlayer videoPlayer = new MediaPlayer(new Media(videoUrl));
-        videoPlayer.play();
-        MediaView videoCont = (MediaView) episodeView.lookup("#mediaView");
-        videoCont.setMediaPlayer(videoPlayer);
+//        MediaPlayer videoPlayer = new MediaPlayer(new Media(videoUrl));
+//        videoPlayer.play();
+//        MediaView videoCont = (MediaView) episodeView.lookup("#mediaView");
+//        videoCont.setMediaPlayer(videoPlayer);
+//        
+//        VBox videoContainer = (VBox) episodeView.lookup("#videoContainer");
+//        
+//        videoContainer.setPadding(new Insets(5, 0, 5, 5));
+//        videoCont.setFitWidth(videoContainer.getWidth());
+//        videoCont.setFitHeight(videoContainer.getHeight());
+//        
+//        videoCont.setPreserveRatio(true);
+        
+        WebView browser = new WebView();
+        WebEngine webEngine = browser.getEngine();
+        webEngine.load(videoUrl);
         
         VBox videoContainer = (VBox) episodeView.lookup("#videoContainer");
-        
-        videoContainer.setPadding(new Insets(5, 0, 5, 5));
-        videoCont.setFitWidth(videoContainer.getWidth());
-        videoCont.setFitHeight(videoContainer.getHeight());
-        
-        videoCont.setPreserveRatio(true);
-        
+        videoContainer.getChildren().removeAll();
+        videoContainer.getChildren().add(browser);
     }
     
     private ImageView createImageView(String imageUrl, String link) {
