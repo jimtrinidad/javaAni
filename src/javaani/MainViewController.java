@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -112,9 +110,9 @@ public class MainViewController implements Initializable {
             Document doc    = Scraper.pagedoc;
             Elements episodesRows   = doc.select("div.episode_box");
             
-            ListView episodeList = new ListView();
+            final ListView episodeList = new ListView();
             ObservableList<String> items = FXCollections.observableArrayList();
-            ObservableList<String> episodesLink = FXCollections.observableArrayList();
+            final ObservableList<String> episodesLink = FXCollections.observableArrayList();
             
             int i = 0;
             for (Element row:episodesRows) {
@@ -165,13 +163,13 @@ public class MainViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(JavaAni.class.getResource("episodeView.fxml"));
         
-        AnchorPane episodeView;
+        final AnchorPane episodeView;
         try {
             
             episodeView = (AnchorPane) loader.load();
-            ListView mirrorListView = new ListView();
+            final ListView mirrorListView = new ListView();
             ObservableList<String> items = FXCollections.observableArrayList();
-            ObservableList<String> mirrorLinks = FXCollections.observableArrayList();
+            final ObservableList<String> mirrorLinks = FXCollections.observableArrayList();
             
             int i = 0;
             for (Map<String, String> mirror:mirrorList) {
@@ -232,19 +230,21 @@ public class MainViewController implements Initializable {
     
     private void openVideo(String videoUrl, AnchorPane episodeView) {
         
-//        MediaPlayer videoPlayer = new MediaPlayer(new Media(videoUrl));
-//        videoPlayer.play();
-//        MediaView videoCont = (MediaView) episodeView.lookup("#mediaView");
-//        videoCont.setMediaPlayer(videoPlayer);
-//        
-//        VBox videoContainer = (VBox) episodeView.lookup("#videoContainer");
-//        
-//        videoContainer.setPadding(new Insets(5, 0, 5, 5));
-//        videoCont.setFitWidth(videoContainer.getWidth());
-//        videoCont.setFitHeight(videoContainer.getHeight());
-//        
-//        videoCont.setPreserveRatio(true);
+        Media media = new Media(videoUrl);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        MediaControl mediaControl = new MediaControl(mediaPlayer);
         
+        VBox videoContainer = (VBox) episodeView.lookup("#videoContainer");
+        videoContainer.getChildren().clear();
+        videoContainer.getChildren().add(mediaControl);
+        
+        videoContainer.setPadding(new Insets(5, 0, 5, 5));
+        
+    }
+    
+    private void openVideoWeb(String videoUrl, AnchorPane episodeView) {
+
         WebView browser = new WebView();
         WebEngine webEngine = browser.getEngine();
         webEngine.load(videoUrl);
@@ -252,9 +252,14 @@ public class MainViewController implements Initializable {
         VBox videoContainer = (VBox) episodeView.lookup("#videoContainer");
         videoContainer.getChildren().removeAll();
         videoContainer.getChildren().add(browser);
+        
     }
     
-    private ImageView createImageView(String imageUrl, String link) {
+    private void openVideoVLC(String videoUrl, AnchorPane episodeView) {
+        
+    }
+    
+    private ImageView createImageView(final String imageUrl, final String link) {
 
         Image image = new Image(imageUrl, true);
         ImageView imageView = null;
