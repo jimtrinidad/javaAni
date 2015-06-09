@@ -32,6 +32,8 @@
 
 package javaani;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -47,6 +49,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -84,6 +89,7 @@ public class MediaControl extends BorderPane {
         mediaBar = new HBox();
         mediaBar.setAlignment(Pos.CENTER);
         mediaBar.setPadding(new Insets(5, 10, 5, 10));
+        mediaBar.setStyle("-fx-background-color: gray;");
         BorderPane.setAlignment(mediaBar, Pos.CENTER);
         
         mediaView.fitWidthProperty().bind(mediaBar.widthProperty());
@@ -127,9 +133,14 @@ public class MediaControl extends BorderPane {
                 height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
 
                 mediaView.setPreserveRatio(true);
+                
+                BorderPane fullBorderPane = new BorderPane();
+                fullBorderPane.setAlignment(mediaBar, Pos.CENTER);
+                fullBorderPane.setCenter(mvPane);
+                fullBorderPane.setBottom(mediaBar);
 
                 StackPane root = new StackPane();
-                root.getChildren().add(mediaView);
+                root.getChildren().add(fullBorderPane);
 
                 final Scene scene = new Scene(root, 960, 540);
                 scene.setFill(Color.BLACK);
@@ -139,6 +150,31 @@ public class MediaControl extends BorderPane {
                 primaryStage.setFullScreen(true);
                 primaryStage.show();
                 
+                fullScreen.setText("EXIT");
+                
+                mediaBar.setVisible(false);
+                
+                Timer mouseidle = new Timer();
+                int timeCtr     = 0;
+                primaryStage.addEventFilter(MouseEvent.MOUSE_MOVED, m -> {
+                    mediaBar.setVisible(true);
+                    mouseidle.schedule(new TimerTask() {          
+                        @Override
+                        public void run() {
+                            mediaBar.setVisible(false);
+                        }
+                    }, 5000);
+                });
+                
+                
+                
+                primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent keyEvent) -> {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                        
+                        //return to mainview
+                        
+                    }
+                });
             }
         });
         

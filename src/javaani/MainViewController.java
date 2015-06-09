@@ -206,6 +206,9 @@ public class MainViewController implements Initializable {
                 
                 mirrorLinks.add(i, videoUrl);
             }
+            
+            //open the first mirror by default
+            openVideo(mirrorLinks.get(0), episodeView);
 
             mirrorListView.setItems(items);
             mirrorListView.setCursor(Cursor.HAND);
