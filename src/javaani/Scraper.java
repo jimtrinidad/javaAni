@@ -24,16 +24,6 @@ public class Scraper {
     
     public static Document pagedoc;
     
-    public static void main(String[] args) {
-        
-        List<Map<String, String>> anilist = Scraper.getPopular();
-        
-        for (Map<String, String> anime:anilist) {
-            System.out.println(anime.get("title") + " - " + anime.get("imageUrl") + " - " + anime.get("link"));
-        }
-        
-    }
-    
     public static Map animeData(String animeUrl) {
         
         Map<String, String> anime = new HashMap<>();
@@ -72,19 +62,21 @@ public class Scraper {
             
             doc     = Jsoup.connect(episodeUrl).get();
             episodeElement = doc.select("div#mirror_container div.mirror");
-            for (Element elem:episodeElement) {
-                
+            episodeElement.stream().map((elem) -> {
                 Map<String, String> mirror = new HashMap<>();
                 Element b = elem.select("b").first();
-                
                 mirror.put("rnID", elem.attr("rn"));
                 mirror.put("thumb", elem.select("img").first().absUrl("src"));
                 mirror.put("provider", b.nextSibling().toString().trim());
                 mirror.put("type", elem.select("div.mirror_traits div").first().attr("class"));
                 mirror.put("quality", elem.select("div.mirror_traits div").last().attr("class"));
+                return mirror;
+            }).map((mirror) -> {
                 mirror.put("auth_key", doc.select("input[name=auth_key]").first().val());
+                return mirror;
+            }).forEach((mirror) -> {
                 mirrors.add(mirror);
-            }
+            });
             
         } catch (IOException ex) {
             Logger.getLogger(Scraper.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,7 +86,7 @@ public class Scraper {
         
     }
     
-    public static List getPopular() {
+    public static List getAnimeSmallList(String pageUrl) {
         
         Document doc;
         Elements animeListElements = new Elements();
@@ -103,7 +95,7 @@ public class Scraper {
         List<Map<String, String>> animeList = new ArrayList<>();
         
         try {
-            doc = Jsoup.connect("http://rawranime.tv/list/popularongoing/").get();
+            doc = Jsoup.connect(pageUrl).get();
             animeListElements = doc.select("table.list_table tr");
         } catch (IOException ex) {
             Logger.getLogger(Scraper.class.getName()).log(Level.SEVERE, null, ex);

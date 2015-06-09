@@ -26,22 +26,22 @@
             <Separator orientation="VERTICAL" prefHeight="351.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="0.0" />
             <AnchorPane id="mainMenuContainer" fx:id="mainMenuContainer" prefHeight="350.0" prefWidth="200.0" style="-fx-background-color: #32323a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Hyperlink fx:id="menuPopular" layoutX="64.0" layoutY="95.0" onAction="#handlePopularAction" prefHeight="40.0" prefWidth="200.0" styleClass="menulink" stylesheets="@../menulink.css" text="Popular" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Hyperlink fx:id="" layoutX="64.0" layoutY="95.0" onAction="#handleOngoingAction" prefHeight="40.0" prefWidth="200.0" styleClass="menulink" stylesheets="@../menulink.css" text="Ongoing" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink fx:id="menuOnGoing" layoutY="78.0" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="On Going" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="78.0">
+                  <Hyperlink fx:id="" layoutY="78.0" prefHeight="40.0" onAction="#handleOngoingPopularAction" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="Ongoing Popular" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="78.0">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink fx:id="menuAll" layoutY="39.0" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="All Anime" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="39.0">
+                  <Hyperlink fx:id="" layoutY="39.0" onAction="#handlePopularAction" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="Popular" textFill="#aeb2b7" visited="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="39.0">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink fx:id="menuBookmarks" layoutY="117.0" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="Bookmarks" textFill="#aeb2b7" visited="true">
+                  <Hyperlink fx:id="" layoutY="117.0" onAction="#handleTopRatedAction" prefHeight="40.0" prefWidth="230.0" styleClass="menulink" stylesheets="@../menulink.css" text="Top Rated" textFill="#aeb2b7" visited="true">
                      <font>
                         <Font size="13.0" />
                      </font>

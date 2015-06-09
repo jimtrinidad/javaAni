@@ -35,7 +35,6 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -56,25 +55,39 @@ public class MainViewController implements Initializable {
     ScrollPane contentContainer;
             
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        
+    private void handleOngoingAction(ActionEvent event) {
+        //listAnime(Scraper.getPopularOngoing());
+    }
+    
+    @FXML
+    private void handleOngoingPopularAction(ActionEvent event) {
+        listAnime(Scraper.getAnimeSmallList("http://rawranime.tv/list/popularongoing/"));
     }
     
     @FXML
     private void handlePopularAction(ActionEvent event) {
+        listAnime(Scraper.getAnimeSmallList("http://rawranime.tv/list/popular/"));
+    }
+    
+    @FXML
+    private void handleTopRatedAction(ActionEvent event) {
+        listAnime(Scraper.getAnimeSmallList("http://rawranime.tv/list/toprated/"));
+    }
+    
+    private void listAnime(List<Map<String, String>> list) {
         
         TilePane tile = new TilePane();
         tile.setPadding(new Insets(15, 15, 15, 15));
         tile.setHgap(10);
         tile.setVgap(10);
         
-        List<Map<String, String>> anilist = Scraper.getPopular();
-        
-        for (Map<String, String> anime:anilist) {
+        list.stream().map((anime) -> {
             ImageView imageView;
             imageView = createImageView(anime.get("imageUrl"), anime.get("link"));
+            return imageView;
+        }).forEach((imageView) -> {
             tile.getChildren().addAll(imageView);
-        }
+        });
         
         contentContainer.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
         contentContainer.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
@@ -130,15 +143,13 @@ public class MainViewController implements Initializable {
             episodeList.setCursor(Cursor.HAND);
             episodeList.getStylesheets().add(getClass().getResource("/listview.css").toExternalForm());
             
-            episodeList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent click) {
+            episodeList.setOnMouseClicked((MouseEvent click) -> {
+                if (click.getButton().equals(MouseButton.PRIMARY)) {
                     if (click.getClickCount() == 2) {
-                        
+
                         int index = episodeList.getSelectionModel().getSelectedIndex();
                         openEpisode(episodesLink.get(index));
-                        
+
                     }
                 }
             });
@@ -200,16 +211,13 @@ public class MainViewController implements Initializable {
             mirrorListView.setCursor(Cursor.HAND);
             mirrorListView.getStylesheets().add(getClass().getResource("/listview.css").toExternalForm());
 
-            mirrorListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent click) {
+            mirrorListView.setOnMouseClicked((MouseEvent click) -> {
+                if(click.getButton().equals(MouseButton.PRIMARY)){
                     if (click.getClickCount() == 2) {
 
                         int index = mirrorListView.getSelectionModel().getSelectedIndex();
-                        System.out.println(mirrorLinks.get(index));
                         openVideo(mirrorLinks.get(index), episodeView);
-                        
+
                     }
                 }
             });
@@ -262,26 +270,20 @@ public class MainViewController implements Initializable {
     private ImageView createImageView(final String imageUrl, final String link) {
 
         Image image = new Image(imageUrl, true);
-        ImageView imageView = null;
-        imageView = new ImageView(image);
+        ImageView imageView = new ImageView(image);
         imageView.setFitWidth(100);
         imageView.setFitHeight(150);
         imageView.setCache(true);
         imageView.setCacheHint(CacheHint.SPEED);
         imageView.setCursor(Cursor.HAND);
                                        
-        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-
-                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-
-                    if(mouseEvent.getClickCount() == 2){
-                        
-                        openAnime(link, imageUrl);
-
-                    }
+        imageView.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                
+                if(mouseEvent.getClickCount() == 2){
+                    
+                    openAnime(link, imageUrl);
+                    
                 }
             }
         });
